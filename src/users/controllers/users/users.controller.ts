@@ -11,6 +11,7 @@ import {
   Query,
   Req,
   Res,
+  UseGuards,
   UsePipes,
   ValidationPipe,
 } from '@nestjs/common';
@@ -19,12 +20,14 @@ import { CreateUserDto } from './dtos/CreateUser.dto';
 import { UsersService } from 'src/users/services/users/users.service';
 import { REDIRECT_METADATA } from '@nestjs/common/constants';
 import { ValidateCreateUserPipe } from 'src/users/pipes/validate-create-user/validate-create-user.pipe';
+import { AuthGuard } from 'src/users/guards/auth/auth.guard';
 
 @Controller('users')
 export class UsersController {
   constructor(private userService: UsersService) {}
 
   @Get()
+  @UseGuards(AuthGuard)
   getUsers() {
     return this.userService.fetchUsers();
   }
